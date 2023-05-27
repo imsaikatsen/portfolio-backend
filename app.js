@@ -1,5 +1,6 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
+const cors = require('cors');
 const bcrypt = require("bcrypt");
 const mongoose = require("mongoose");
 const jwtMiddleware = require("./middleware/jwtMiddleware");
@@ -16,7 +17,16 @@ mongoose
 
 //Create userSchema
 const userSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
   email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  phone: {
     type: String,
     required: true,
     unique: true,
@@ -35,10 +45,16 @@ const app = express();
 //Middleware
 
 app.use(express.json());
+app.use(cors());
 
 //Routes
 app.post("/api/register", async (req, res) => {
-  const { email, password } = req.body;
+  const { name,email,phone, password } = req.body;
+
+  const existingUser = await User.findOne({email})
+  if(existingUser) {
+    return res.status(409).json({error: "Email already registered"});
+  }
 
   //Hash Password
   const salt = await bcrypt.genSalt(10);
@@ -47,7 +63,9 @@ app.post("/api/register", async (req, res) => {
   //Create new user
 
   const user = new User({
+    name,
     email,
+    phone,
     password: hashedPassword,
   });
 
@@ -89,5 +107,5 @@ app.post("/api/hello", jwtMiddleware, (req, res) => {
 
 //Start Server
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
