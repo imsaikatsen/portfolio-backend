@@ -1,8 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const connectToDatabase = require("./database/database");
-const authController = require("./controller/authController");
-const jwtMiddleware = require("./middleware/jwtMiddleware");
+// const authController = require("./controller/authController");
+// const jwtMiddleware = require("./middleware/jwtMiddleware");
 require("dotenv").config();
 
 const app = express();
@@ -14,12 +14,14 @@ connectToDatabase();
 app.use(express.json());
 app.use(cors());
 
-// Routes
-app.post("/api/register", authController.register);
-app.post("/api/login", authController.login);
-app.get("/api/protected", jwtMiddleware, (req, res) => {
-  res.json({ message: "Protected route" });
-});
+// // Routes
+// app.post("/api/register", authController.register);
+// app.post("/api/login", authController.login);
+// app.get("/api/protected", jwtMiddleware, (req, res) => {
+//   res.json({ message: "Protected route" });
+// });
+
+app.use(require('./routers/router'))
 
 
 // Start Server
