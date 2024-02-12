@@ -10,16 +10,9 @@ const app = express();
 // Connect to the database
 connectToDatabase();
 
-// Middleware
 app.use(express.json());
 app.use(cors());
 
-// // Routes
-// app.post("/api/register", authController.register);
-// app.post("/api/login", authController.login);
-// app.get("/api/protected", jwtMiddleware, (req, res) => {
-//   res.json({ message: "Protected route" });
-// });
 
 app.use(require('./routers/router'))
 
