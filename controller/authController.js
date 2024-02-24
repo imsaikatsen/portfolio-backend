@@ -57,3 +57,13 @@ exports.login = async (req, res) => {
 exports.logout = async (req, res) => {
   res.status(200).json({ message: "Logout successful" });
 };
+
+exports.get_all_users = async (req, res) => {
+  try {
+    const users = await User.find();
+    res.json(users);
+  } catch (error) {
+    console.error("Error during find all users", error);
+    res.status(500).send("Error during find users");
+  }
+};
