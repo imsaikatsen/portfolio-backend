@@ -64,13 +64,11 @@ exports.update_single_blog = async (req, res) => {
 };
 exports.delete_single_blog = async (req, res) => {
   try {
-    const blog = await Blog.findById(req.params.id);
-    if (!blog) {
+    const result = await Blog.deleteOne({ _id: req.params.id });
+    if (result.deletedCount === 0) {
       return res.status(404).json({ message: "Blog Not Found" });
     }
-    await blog.remove();
     res.json({ message: "Blog deleted" });
-    res.json(updatedBlog);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

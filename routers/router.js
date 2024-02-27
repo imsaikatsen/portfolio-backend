@@ -22,7 +22,7 @@ router.get("/api/blog/get-all-blogs", get_all_blogs);
 //Get Single blog
 router.get("/api/blog/:id", get_single_blog);
 //Update blog
-router.post("/api/blog/:id", update_single_blog);
+router.put("/api/blog/:id", update_single_blog);
 // Delete a blog
-router.post("/api/blog/:id", delete_single_blog);
+router.delete("/api/blog/:id", delete_single_blog);
 module.exports = router;
