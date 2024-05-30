@@ -80,3 +80,53 @@ exports.get_project = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+exports.update_project = async (req, res) => {
+  upload.single("projectImage")(req, res, async (err) => {
+    try {
+      if (err instanceof multer.MulterError) {
+        console.log("Multer Error", err);
+        return res.status(400).json({ message: "Error uploading imagae" });
+      } else if (err) {
+        console.log("Unknown Error", err);
+        return res.status(400).json({ message: "An expected error occurred" });
+      }
+
+      const {
+        projectTitle,
+        projectDescription,
+        projectTools,
+        projectGithubLink,
+        date,
+      } = req.body;
+      let updatedData = {
+        projectTitle,
+        projectDescription,
+        projectTools: projectTools
+          ? projectTools.split(",").map((tool) => tool.trim())
+          : undefined,
+        projectGithubLink,
+        date,
+      };
+
+      if (req.file) {
+        updatedData.projectImage = req.file.path;
+      }
+
+      const project = await Project.findByIdAndUpdate(
+        req.params.id,
+        updatedData,
+        { new: true }
+      );
+
+      if (!project) {
+        return res.status(404).json({ message: "Project not found" });
+      }
+
+      res.status(200).json(project);
+    } catch (error) {
+      console.error("Error updating project:", error);
+      res.status(500).json({ message: error.message });
+    }
+  });
+};

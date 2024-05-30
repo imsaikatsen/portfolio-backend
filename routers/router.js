@@ -6,14 +6,19 @@ const { register } = require("../controller/authController");
 const { login } = require("../controller/authController");
 const { logout } = require("../controller/authController");
 const { get_all_users } = require("../controller/authController");
-const { add_blog } = require("../controller/blogController");
-const { get_all_blogs } = require("../controller/blogController");
-const { get_single_blog } = require("../controller/blogController");
-const { update_single_blog } = require("../controller/blogController");
-const { delete_single_blog } = require("../controller/blogController");
-const { add_project } = require("../controller/ProjectsController");
-const { list_projects } = require("../controller/ProjectsController");
-const { get_project } = require("../controller/ProjectsController");
+const {
+  add_blog,
+  get_all_blogs,
+  get_single_blog,
+  update_single_blog,
+  delete_single_blog,
+} = require("../controller/blogController");
+const {
+  add_project,
+  list_projects,
+  get_project,
+  update_project,
+} = require("../controller/ProjectsController");
 
 //.................... Authentication API ...................//
 
@@ -38,6 +43,6 @@ router.delete("/api/blog/:id", delete_single_blog);
 router.post("/api/projects/add-project", add_project);
 router.get("/api/projects/list_projects", list_projects);
 router.get("/api/projects/:id", get_project);
-// router.put("/api/projects/:id", update_project);
+router.put("/api/projects/:id", update_project);
 // router.delete("/api/projects/:id", delete_project);
 module.exports = router;
