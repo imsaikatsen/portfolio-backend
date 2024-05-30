@@ -12,6 +12,7 @@ const { get_single_blog } = require("../controller/blogController");
 const { update_single_blog } = require("../controller/blogController");
 const { delete_single_blog } = require("../controller/blogController");
 const { add_project } = require("../controller/ProjectsController");
+const { list_projects } = require("../controller/ProjectsController");
 
 //.................... Authentication API ...................//
 
@@ -34,4 +35,8 @@ router.delete("/api/blog/:id", delete_single_blog);
 //.................... Project API ...................//
 
 router.post("/api/projects/add-project", add_project);
+router.get("/api/projects/list_projects", list_projects);
+// router.get("/api/projects/:id", get_project);
+// router.put("/api/projects/:id", update_project);
+// router.delete("/api/projects/:id", delete_project);
 module.exports = router;
