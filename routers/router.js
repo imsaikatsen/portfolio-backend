@@ -18,6 +18,7 @@ const {
   list_projects,
   get_project,
   update_project,
+  delete_project,
 } = require("../controller/ProjectsController");
 
 //.................... Authentication API ...................//
@@ -44,5 +45,5 @@ router.post("/api/projects/add-project", add_project);
 router.get("/api/projects/list_projects", list_projects);
 router.get("/api/projects/:id", get_project);
 router.put("/api/projects/:id", update_project);
-// router.delete("/api/projects/:id", delete_project);
+router.delete("/api/projects/:id", delete_project);
 module.exports = router;
