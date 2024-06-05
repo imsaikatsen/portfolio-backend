@@ -40,7 +40,7 @@ exports.add_project = async (req, res) => {
       const newProject = new Project({
         projectTitle,
         projectDescription,
-        projectImage: req.file.path, // Save path to the uploaded image
+        projectImage: req.file.path.replace(/\\/g, "/"), // Save path to the uploaded image
         projectTools: projectTools.split(",").map((tool) => tool.trim()), // Convert tools string to array
         projectGithubLink,
         date,
@@ -86,10 +86,12 @@ exports.update_project = async (req, res) => {
     try {
       if (err instanceof multer.MulterError) {
         console.log("Multer Error", err);
-        return res.status(400).json({ message: "Error uploading imagae" });
+        return res.status(400).json({ message: "Error uploading image" });
       } else if (err) {
         console.log("Unknown Error", err);
-        return res.status(400).json({ message: "An expected error occurred" });
+        return res
+          .status(400)
+          .json({ message: "An unexpected error occurred" });
       }
 
       const {
@@ -99,6 +101,7 @@ exports.update_project = async (req, res) => {
         projectGithubLink,
         date,
       } = req.body;
+
       let updatedData = {
         projectTitle,
         projectDescription,
@@ -110,7 +113,7 @@ exports.update_project = async (req, res) => {
       };
 
       if (req.file) {
-        updatedData.projectImage = req.file.path;
+        updatedData.projectImage = req.file.path.replace(/\\/g, "/");
       }
 
       const project = await Project.findByIdAndUpdate(
